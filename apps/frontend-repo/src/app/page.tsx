@@ -1,12 +1,13 @@
 
 export const metadata = {
-  title: "Store | Kitchen Sink",
+  title: "Ebuddy-test | user crud",
 };
 
 export default function Store() {
 
   return (
     <div className="container">
+      halo
     </div>
   );
 }
