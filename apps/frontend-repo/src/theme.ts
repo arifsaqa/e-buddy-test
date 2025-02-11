@@ -9,7 +9,6 @@ const roboto = Roboto({
 });
 
 const theme = createTheme({
-  colorSchemes: { light: true, dark: true },
   cssVariables: {
     colorSchemeSelector: 'class',
   },
