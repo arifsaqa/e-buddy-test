@@ -8,15 +8,20 @@ import Dialog from "../atoms/Dialog";
 
 export default function DeleteDialog({
   isOpen,
-  isLoading,
   onClose,
   onConfirm,
 }: Readonly<{
   isOpen: boolean;
-  isLoading: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void>;
 }>) {
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleConfirm = async () => {
+    setIsLoading(false);
+    await onConfirm();
+    setIsLoading(false);
+  };
   return (
     <Dialog
       isOpen={isOpen}

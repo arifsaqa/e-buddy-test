@@ -107,7 +107,6 @@ export default function UserTable() {
         </Table>
       </TableContainer>
       <DeleteDialog
-        isLoading={loading}
         isOpen={deleteModal}
         onClose={() => setDeleteModal(false)}
         onConfirm={handleDeleteConfirm}
