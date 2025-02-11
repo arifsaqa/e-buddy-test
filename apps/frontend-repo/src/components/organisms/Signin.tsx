@@ -13,10 +13,11 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import GoogleIcon from "../atoms/GoogleIcon";
-import { signinWithGoogle } from "../../lib/firebase";
+import { signinWithEmailNPassword, signinWithGoogle } from "../../lib/firebase";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../../redux/hooks";
 import { signin } from "../../redux/actions/auth";
+import { Alert, Collapse, IconButton } from "@mui/material";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -67,17 +68,27 @@ export default function SignIn() {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  const [loginError, setLoginError] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (emailError || passwordError) {
-      event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    setLoading(true);
+    try {
+      const { token, user } = await signinWithEmailNPassword(
+        data.get("email") as string,
+        data.get("password") as string
+      );
+      await dispatch(signin({ token, user }));
+      router.refresh();
+    } catch (error: any) {
+      setLoginError(error.code);
+    }
+    setLoading(false);
   };
 
   const validateInputs = () => {
@@ -108,15 +119,15 @@ export default function SignIn() {
   };
 
   const handleLoginGoogle = async () => {
-    await signinWithGoogle((user, token) => {
-      dispatch(
-        signin({
-          token,
-          user,
-        })
-      );
-    });
-    router.replace("/");
+    try {
+      const { token, user } = await signinWithGoogle();
+      setLoading(true);
+      await dispatch(signin({ token, user }));
+      router.refresh();
+    } catch (error: any) {
+      setLoginError(error.code);
+    }
+    setLoading(false);
   };
 
   return (
@@ -178,13 +189,34 @@ export default function SignIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          <Collapse in={!!loginError}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setLoginError(null);
+                  }}
+                >
+                  X
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {loginError}
+            </Alert>
+          </Collapse>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             onClick={validateInputs}
+            disabled={loading}
           >
-            Sign in
+            {loading ? "Loading..." : "Sign in"}
           </Button>
         </Box>
         <Divider>or</Divider>
@@ -193,9 +225,10 @@ export default function SignIn() {
             fullWidth
             variant="outlined"
             onClick={handleLoginGoogle}
+            disabled={loading}
             startIcon={<GoogleIcon />}
           >
-            Sign in with Google
+            {loading ? "Loading.." : "Sign in with Google"}
           </Button>
         </Box>
       </Card>

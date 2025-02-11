@@ -1,4 +1,4 @@
-import UserC from "../components/UserC";
+import Navbar from "../components/organisms/Navbar";
 
 export const metadata = {
   title: "Ebuddy-test | user crud",
@@ -6,9 +6,8 @@ export const metadata = {
 
 export default function Store() {
   return (
-    <div className="container">
-      halo
-      <UserC />
-    </div>
+    <>
+      <Navbar />
+    </>
   );
 }
