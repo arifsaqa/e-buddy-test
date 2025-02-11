@@ -12,7 +12,7 @@ import TableHeader from "../molecules/TableHeader";
 import { TableRowItem } from "../molecules/TableRowItem";
 import DeleteDialog from "../molecules/DeleteDialog";
 import UserFormDialog from "./UserForm";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 
 const headers = [
   "name",
@@ -77,11 +77,12 @@ export default function UserTable() {
             paddingY: 2,
           }}
         >
-          <Typography variant="h4">User Table</Typography>
+          <Typography variant="h6">User Table</Typography>
           <Button color="primary" variant="contained" onClick={handleCreate}>
             Create
           </Button>
         </Box>
+        <Divider />
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHeader headers={headers} />
           <TableBody>

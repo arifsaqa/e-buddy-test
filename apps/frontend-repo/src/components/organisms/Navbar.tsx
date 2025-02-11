@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AvatarWithSetting from "../molecules/AvatarWithSetting";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Dashboard"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -87,7 +87,7 @@ function Navbar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="#"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
