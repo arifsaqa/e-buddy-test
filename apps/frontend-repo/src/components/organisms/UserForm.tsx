@@ -27,15 +27,19 @@ export default function UserFormDialog({
 }: Readonly<UserForm>) {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = React.useState(false);
+  const [inputState, setInputState] = React.useState<Record<string, string>>(
+    {}
+  );
   const [formError, setFormError] = React.useState<string | null>(null);
   const [errors, setErrors] = React.useState<
     Record<string, { message: string; isError: boolean }>
   >({});
 
-  console.log(
-    errors,
-    Object.values(errors).some((error) => !!error?.isError)
-  );
+  const changeHandler: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (e) => {
+    setInputState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const validateInputs = () => {
     const form = document.getElementById("userForm") as HTMLFormElement;
@@ -100,21 +104,21 @@ export default function UserFormDialog({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(
-      "submiting",
-      Object.values(errors).some((error) => !!error?.isError)
-    );
 
     if (Object.values(errors).some((error) => !!error?.isError)) return;
 
     const name = data.get("name") as string;
     const numberOfRents = data.get("numberOfRents") as string;
-    const totalAverageWeightRatings = data.get("numberOfRents") as string;
+    const totalAverageWeightRatings = data.get(
+      "totalAverageWeightRatings"
+    ) as string;
+
     const payload = {
       name,
       numberOfRents: Number(numberOfRents),
       totalAverageWeightRatings: Number(totalAverageWeightRatings),
     };
+
     setLoading(true);
 
     await (isUpdate
@@ -127,6 +131,7 @@ export default function UserFormDialog({
       : dispatch(createUser(payload)));
 
     setLoading(false);
+    onClose();
   };
 
   return (
@@ -156,7 +161,8 @@ export default function UserFormDialog({
                   isError={errors[inputName]?.isError}
                   errorMessage={errors[inputName]?.message}
                   placeholder="a@gmail.com"
-                  defaultValue={value}
+                  onChangeHandler={changeHandler}
+                  value={inputState[inputName] ?? value}
                 />
               );
             }
