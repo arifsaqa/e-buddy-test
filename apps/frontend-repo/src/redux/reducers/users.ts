@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getUsers } from '../actions/users';
+import { User } from '@repo/entities';
 
 interface UserState {
-  data: [];
+  data: Array<User>;
   loading: boolean;
   error: string | null;
 }
