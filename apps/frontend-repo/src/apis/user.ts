@@ -4,8 +4,8 @@ import { BaseApi } from "./base";
 export class UserApi extends BaseApi {
   private readonly userBaseUrl = "/users";
 
-  create(token: string, json: Record<string, string>) {
-    return this.fetch(this.userBaseUrl, "POST", {
+  create(token: string, json: Omit<User, "recentlyActive" | "id">) {
+    return this.fetch<User>(this.userBaseUrl, "POST", {
       isPrivate: true,
       token,
       json,
@@ -26,8 +26,8 @@ export class UserApi extends BaseApi {
     });
   }
 
-  update(token: string, id: string, json: Record<string, string>) {
-    return this.fetch(`${this.userBaseUrl}/${id}`, "PATCH", {
+  update(token: string, id: string, json: Omit<User, "id" | "recentlyActive">) {
+    return this.fetch<boolean>(`${this.userBaseUrl}/${id}`, "PATCH", {
       isPrivate: true,
       token,
       json,
@@ -35,7 +35,7 @@ export class UserApi extends BaseApi {
   }
 
   delete(token: string, id: string) {
-    return this.fetch(`${this.userBaseUrl}/${id}`, "DELETE", {
+    return this.fetch<boolean>(`${this.userBaseUrl}/${id}`, "DELETE", {
       isPrivate: true,
       token,
     });

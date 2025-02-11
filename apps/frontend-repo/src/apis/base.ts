@@ -2,7 +2,7 @@ import { HTTP_METHOD } from "next/dist/server/web/http";
 
 interface FetchOptions {
   body?: any;
-  json?: Record<string, string>;
+  json?: Record<string, any>;
   params?: Record<string, string>;
   headers?: Record<string, string>;
   isPrivate?: boolean;

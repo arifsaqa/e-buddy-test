@@ -20,7 +20,7 @@ const InputWithLabel = ({
 }: Props) => {
   return (
     <FormControl>
-      <FormLabel htmlFor={label}>{label.toUpperCase()}</FormLabel>
+      <FormLabel htmlFor={label}>{label}</FormLabel>
       <TextField
         error={isError}
         helperText={errorMessage}
@@ -35,6 +35,9 @@ const InputWithLabel = ({
         variant="outlined"
         color={isError ? "error" : "primary"}
         defaultValue={defaultValue}
+        sx={{
+          background: "transparent",
+        }}
       />
     </FormControl>
   );
