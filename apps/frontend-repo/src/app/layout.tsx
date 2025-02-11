@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import "./styles.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import theme from "../theme";
+import StoreProvider from "../redux/StoreProvider";
 
 export default function RootLayout({
   children,
@@ -14,7 +15,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {children}
+            <StoreProvider>{children}</StoreProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
