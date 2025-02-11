@@ -14,10 +14,12 @@ export abstract class BaseRepository<T extends DocumentData>
     this._collection = firestore.collection(collectionName);
   }
 
-  async create(item: T): Promise<boolean> {
+  async create(item: T): Promise<T> {
     try {
-      await this._collection.add(item);
-      return true;
+      const docRef = await this._collection.add(item);
+      const docSnap = await docRef.get();
+
+      return docSnap.data() as T;
     } catch (error) {
       console.error("Error creating document:", error);
       throw error;
