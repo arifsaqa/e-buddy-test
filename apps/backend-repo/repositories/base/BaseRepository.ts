@@ -27,7 +27,7 @@ export abstract class BaseRepository<T extends DocumentData>
   }
   async update(id: string, item: T): Promise<boolean> {
     try {
-      await this._collection.doc(id).set(item);
+      await this._collection.doc(id).update(item);
       return true;
     } catch (error) {
       console.error("Error updating document:", error);
