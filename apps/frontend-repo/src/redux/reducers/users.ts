@@ -44,7 +44,9 @@ export const userSlice = createSlice({
     builder
       .addCase(udpateUser.fulfilled, (state, action) => {
         state.data = state.data.map((prevValue) =>
-          prevValue.id === action.payload.id ? action.payload : prevValue
+          prevValue.id === action.payload.id
+            ? { ...action.payload, recentlyActive: prevValue.recentlyActive }
+            : prevValue
         );
         state.loading = false;
       })
