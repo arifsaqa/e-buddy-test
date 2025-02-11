@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../../redux/hooks";
 import { signin } from "../../redux/actions/auth";
 import { Alert, Collapse, IconButton } from "@mui/material";
+import InputWithLabel from "../molecules/InputWithLabel";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -151,40 +152,19 @@ export default function SignIn() {
             gap: 2,
           }}
         >
-          <FormControl>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <TextField
-              error={emailError}
-              helperText={emailErrorMessage}
-              id="email"
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              autoComplete="email"
-              autoFocus
-              required
-              fullWidth
-              variant="outlined"
-              color={emailError ? "error" : "primary"}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <TextField
-              error={passwordError}
-              helperText={passwordErrorMessage}
-              name="password"
-              placeholder="••••••"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              autoFocus
-              required
-              fullWidth
-              variant="outlined"
-              color={passwordError ? "error" : "primary"}
-            />
-          </FormControl>
+          <InputWithLabel
+            label="email"
+            type="email"
+            isError={emailError}
+            errorMessage={emailErrorMessage}
+            placeholder="a@gmail.com"
+          />
+          <InputWithLabel
+            label="password"
+            type="password"
+            isError={passwordError}
+            errorMessage={passwordErrorMessage}
+          />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
