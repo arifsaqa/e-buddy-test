@@ -8,6 +8,10 @@ interface Props {
   errorMessage?: string;
   placeholder?: string;
   defaultValue?: any;
+  onChangeHandler?: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  >;
+  value?: any;
 }
 
 const InputWithLabel = ({
@@ -17,6 +21,8 @@ const InputWithLabel = ({
   type,
   placeholder,
   defaultValue,
+  value,
+  onChangeHandler,
 }: Props) => {
   return (
     <FormControl>
@@ -38,6 +44,8 @@ const InputWithLabel = ({
         sx={{
           background: "transparent",
         }}
+        onChange={onChangeHandler}
+        value={value}
       />
     </FormControl>
   );
