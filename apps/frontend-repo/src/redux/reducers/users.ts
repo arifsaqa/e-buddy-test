@@ -33,22 +33,15 @@ export const userSlice = createSlice({
       });
 
     builder
-      .addCase(createUser.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(createUser.fulfilled, (state, action) => {
         state.data.push(action.payload);
         state.loading = false;
       })
       .addCase(createUser.rejected, (state, action) => {
         state.error = action.error.message ?? "Failed to create data";
-        state.loading = false;
       });
 
     builder
-      .addCase(udpateUser.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(udpateUser.fulfilled, (state, action) => {
         state.data = state.data.map((prevValue) =>
           prevValue.id === action.payload.id ? action.payload : prevValue
@@ -57,20 +50,15 @@ export const userSlice = createSlice({
       })
       .addCase(udpateUser.rejected, (state, action) => {
         state.error = action.error.message ?? "Failed to update data";
-        state.loading = false;
       });
 
     builder
-      .addCase(deleteUser.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.data = state.data.filter((prev) => prev.id !== action.payload);
         state.loading = false;
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.error = action.error.message ?? "Failed to delete data";
-        state.loading = false;
       });
   },
 });
